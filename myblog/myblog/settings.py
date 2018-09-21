@@ -76,9 +76,9 @@ WSGI_APPLICATION = 'myblog.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'blog4',  # 要连接的数据库，连接前需要创建好
-        'USER': 'root',  # 连接数据库的用户名
-        'PASSWORD': 'wszwt159',  # 连接数据库的密码
+        'NAME': 'blog',  # 要连接的数据库，连接前需要创建好
+        'USER': '',  # 连接数据库的用户名
+        'PASSWORD': '',  # 连接数据库的密码
         'HOST': '127.0.0.1',  # 连接主机，默认本级
         'PORT': 3306,  # 端口 默认3306
     }
@@ -130,10 +130,10 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-EMAIL_HOST = 'smtp.163.com'  # 如果是 163 改成 smtp.163.com,
+EMAIL_HOST = ''  # 如果是 163 改成 smtp.163.com,
 EMAIL_PORT = 465  # 端口号
-EMAIL_HOST_USER = 'double_Aking@163.com'  # 帐号
-EMAIL_HOST_PASSWORD = 'doubleaking163'  # 密码 授权码
+EMAIL_HOST_USER = ''  # 帐号
+EMAIL_HOST_PASSWORD = ''  # 密码 授权码
 # DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_USE_SSL = True  # 证书
 
