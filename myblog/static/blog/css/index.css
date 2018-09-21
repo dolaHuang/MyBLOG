@@ -1,0 +1,28 @@
+/*{#尾部#}*/
+div.footer{
+    margin: 0 auto;
+    text-align: center;
+    font-size: 14px;
+    color: #000000;
+}
+
+/*注册头像*/
+#avator{
+    display: none;
+}
+
+/*首页导航条*/
+span#user-icon{
+    font-size: 18px;
+    margin-right: 10px;
+    vertical-align: -3px;
+}
+
+
+/*首页文章列表*/
+.pub-info{
+    margin-top: 10px;
+}
+.pub-info span.glyphicon{
+    vertical-align: -3px;
+}

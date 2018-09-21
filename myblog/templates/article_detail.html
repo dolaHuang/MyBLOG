@@ -1,0 +1,282 @@
+{#文章详情页#}
+{% extends 'home_base.html' %}
+
+{% block content %}
+<div class="main-content clearfix">
+    {% csrf_token %}
+    <h3 class="text-center">{{ article_obj.title }}</h3>
+    <div class="article-content">
+        {{ article_obj.content|safe }}
+    </div>
+    <div style="margin-top: 50px"></div>
+    <div class="pub-info clearfix article_detile_pub_info">
+        <span>posted@{{ username }}</span> &nbsp;&nbsp;
+        <span>发布于&nbsp;{{ article_obj.create_time|date:'Y-m-d H:i' }}</span>&nbsp;&nbsp;
+        <span class="glyphicon glyphicon-comment"></span><span>评论({{ article_obj.comment_count }})</span>&nbsp;&nbsp;
+        <span class="glyphicon glyphicon-thumbs-up"></span><span>点赞({{ article_obj.up_count }})</span>
+    </div>
+</div>
+{#    点赞#}
+<div id="div_digg">
+    <div class="diggit action">
+        <span class="diggnum" id="digg_count">{{ article_obj.up_count }}</span>
+    </div>
+    <div class="buryit action">
+        <span class="burynum" id="bury_count">{{ article_obj.down_count }}</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips"></div>
+</div>
+{#评论列表#}
+    <div class="comment_tree">
+        <h4>评论列表</h4>
+        <hr>
+        <ul class="list-group comment_tree_list">
+            <h5 class="no_comment" style="display: none">暂无评论!</h5>
+
+        </ul>
+    </div>
+{#发表评论#}
+    <div class="content_area">
+        <div id="comment_form_container">
+            <div id="commentform_title">发表评论</div>
+            <span id="tip_comment" style="color:Red"></span>
+            <p>
+                昵称：<input id="tbCommentAuthor" class="author" disabled="disabled" size="50" value="{{ request.user.username }}" type="text">
+            </p>
+            <div class="commentbox_main">
+                <div class="clear"></div>
+                <div class="form-group article-content-form">
+                    <label for="article-content">评论内容(kinderitor编辑器)</label>
+                    <span id="tip_comment2" style="color:Red"></span>
+                    <div>
+                        <textarea id="article-content" name="content"></textarea>
+                    </div>
+                </div>
+            </div>
+            <p id="commentbox_opt">
+                <input id="btn_comment_submit" class="comment_btn" value="提交评论" type="button">
+            </p>
+
+            <div style="display:none">
+                <span id="comment_edit_id" style="background-color: #b4b4b4"></span><span id="span_parentcomment_id"></span>
+                <span id="span_parent_id"></span>
+                <span id="span_comment_replyto"></span>
+                <span id="span_comment_posted"></span>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <script charset="utf-8" src="/static/kindeditor/kindeditor-all-min.js"></script>
+    <script>
+        KindEditor.ready(function(K) {
+                    window.editor = K.create('#article-content',
+                    {
+                        width:'400',
+                        height:'200',
+                        resizeType:0,
+                        items:['bold','link','indent','emoticons','code','image'],
+                        uploadJson:'/upload/',
+                        extraFileUploadParams:{
+                            csrfmiddlewaretoken:$("[name='csrfmiddlewaretoken']").val()
+                        },
+                        filePostName:'up_load_img'
+                    });
+        });
+
+        $(function () {
+            {#回复按钮#}
+            $(".comment_tree").delegate('.replay','click',function () {
+                html = editor.html();
+                editor.sync();
+
+                var val = "@" + $(this).attr("username") + ":";
+                editor.html(val);
+                editor.focus();
+                editor.appendHtml('');
+
+                {#滚动到编辑器所在位置#}
+                $(window).scrollTop($(".article-content-form").offset().top);
+                parent_id=$(this).attr('replay_comment_id')
+
+            });
+            {#点赞和反对#}
+            $('#div_digg .action').click(function () {
+                if('{{ request.user.pk }}'==='None'){
+                    window.location.href='/login/'
+                }else{
+                    {#通过判断是不是有点赞diggit的类，生成布尔值决定是点赞还是反对#}
+                    var is_up=$(this).hasClass('diggit');
+                    {#当前点击对象下的sapn#}
+                    $obj = $(this).children("span");
+                    $.ajax({
+                    url:"/digg/",
+                    type:'post',
+                    data:{
+                        'csrfmiddlewaretoken':$('[name="csrfmiddlewaretoken"]').val(),
+                        'is_up':is_up,
+
+                        'article_id':{{ article_id }}
+                    },
+                    success:function (data) {
+                        if(data.state){
+                            var val = parseInt($obj.text());
+                            $obj.text(val + 1);
+
+                        }else if(data.handle!==null){
+                            var val=data.handle? '您已经推荐过了': '您已经反对过了';
+                            $('#digg_tips').text(val);
+
+                        }else if(data.msg){
+                            console.log(data);
+                            var msg = data.msg;
+                            $('#digg_tips').text(msg);
+
+                        }
+                        setTimeout(function () {
+                            $('#digg_tips').text('');
+
+                        },2000)
+                    }
+
+                })
+                }
+
+            });
+            {#显示评论树#}
+
+            $.ajax({
+                url:'/get_conmment_tree/',
+                tppe:'get',
+                data:{
+                    {#为什么这里不能用post#}
+                    {#'csrfmiddlewaretoken':$("[name='csrfmiddlewaretoken']").val(),#}
+                    'article_id': {{ article_obj.pk }},
+                },
+                success:function (conmment_list) {
+                    $.each(conmment_list,function (index,conmment_obj) {
+                        var avatar=conmment_obj.user__avatar;
+                        var pk=conmment_obj.pk;
+                        var content=conmment_obj.content;
+                        var parent_comment_id=conmment_obj.parent_comment;
+                        var user=conmment_obj.user__username;
+                        var create_time=conmment_obj.create_time__year+'-'+conmment_obj.create_time__month+'-'+conmment_obj.create_time__day+'&nbsp;'+conmment_obj.create_time__hour+':'+conmment_obj.create_time__minute;
+                        var tag =`<li class="list-item" comment_id=${pk} parent_comment_id=${parent_comment_id}>
+                                        <div class="comment-msg">
+                                            <a class="user-pic" href="">
+                                                <img src="/media/${avatar}">
+                                            </a>
+                                            <span class="name-and-msg">
+                                                <a class="name underline-comment-msg">${content}</a>
+                                                <span class="msg">${user}</span>
+                                                <span class="into-time">${ create_time}</span>
+                                                <span class="underline-comment-msg pull-right replay" username='${user}' replay_comment_id=${pk} style="color: #336699">回复</span>
+                                            </span>
+                                      </div>
+                                  </li>`;
+
+                        if(parent_comment_id===null){
+                            $(".comment_tree ul").append(tag);
+                        }else {
+                            $("[comment_id=" + parent_comment_id + "]").append(tag);
+                        }
+                    });
+                    {#评论添加虚线#}
+                    $.each($('.list-item'),function (index,comment) {
+                        if($(comment).attr('parent_comment_id')==="null"){
+                            $(comment).addClass('comment_top')
+                        }else{
+                            $(comment).addClass('comment_child');
+                            $(comment).append('<div class="line" ></div>')
+
+                        }
+                    });
+                    var comment_tree_list_length=$('div.comment_tree').find('li').length;
+                    if(comment_tree_list_length===0) {
+                        $('.no_comment').css('display', 'block')
+                    }
+
+                    }
+            });
+                {#提交评论#}
+            var parent_id= "";
+
+            $('#btn_comment_submit').click(function () {
+                if('{{ request.user.pk }}'==='None'){
+                    window.location.href='/login/'
+                }else{
+                    // 取得HTML内容，编辑器同步之后才能获取到内容
+                html = editor.html();
+                editor.sync();
+
+                var html=$('#article-content').val();
+                comment_content=html;
+                if (parent_id) {
+                    var index = comment_content.indexOf(":");
+                    comment_content = comment_content.slice(index + 1)
+                }
+                if(comment_content){
+                    $.ajax({
+                    url:'/conmment/',
+                    type:'post',
+                    data:{
+                        'parent_id':parent_id,
+                        'comment_content':comment_content,
+                        'article_id':{{ article_id }},
+                        'user':{{ request.user.pk }},
+                        'parent_conmment_id':'',
+                        'csrfmiddlewaretoken':$("[name='csrfmiddlewaretoken']").val()
+                    },
+                    success:function (response) {
+                        if(response.msg){
+                        var avatar=response.avatar;
+                        var pk=response.pk;
+                        var content=response.content;
+                        var parent_comment_id=response.parent_comment_id;
+                        var user=response.user;
+                        var create_time=response.create_time;
+
+                        var tag =`<li style=" border-radius: 5px;background-color: #e0e0e0;" class="list-item" comment_id=${pk} parent_comment_id=${parent_comment_id}>
+                                        <div class="comment-msg">
+                                            <a class="user-pic" href="">
+                                                <img src="/media/${avatar}">
+                                            </a>
+                                            <span class="name-and-msg">
+                                                <a class="name underline-comment-msg">${content}</a>
+                                                <span class="msg">${user}</span>
+                                                <span class="into-time">${ create_time}</span>
+                                            </span>
+                                      </div>
+                                  </li>`;
+
+                        if(parent_comment_id===null|| parent_comment_id===''){
+                            $(".comment_tree ul").append(tag);
+                        }else {
+                            $("[comment_id=" + parent_comment_id + "]").append(tag);
+                        }
+                    }
+                    {#提交评论后，隐藏文字#}
+                        $('.no_comment').css('display','none');
+                        // 清空评论框
+                    parent_id = "";
+                        // 设置编辑器HTML内容
+                    editor.html('');
+                    }
+                })
+                }else{
+                    $('#tip_comment2').text('评论不能为空');
+                    setTimeout(function () {
+                        $('#tip_comment2').text('');
+
+                    },2000)
+                }
+                }
+            });
+
+        })
+    </script>
+{#    无法将js移动到单独文件#}
+{#    <script src="/static/blog/js/article_detail.js"></script>#}
+
+
+{% endblock %}

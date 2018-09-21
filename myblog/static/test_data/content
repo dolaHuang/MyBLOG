@@ -1,0 +1,33 @@
+<div class="postBody">
+<hr style="height:1px;border:none;border-top:1px dashed #0066CC;"><p><span style="font-size: 15px;">单例模式是最简单的也是设计模式系列书籍开篇第一个讲到的模式，在平时的开发中也经常用它来保证获取的都是同一个实例。</span></p>
+<p><strong><span style="font-size: 15px; color: #ff0000;">定义：确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例。</span></strong></p>
+<div style="text-align: right;"><a href="" style="color:#f68a33"></a><a name="_label0"></a></div><h2>饿汉模式</h2>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"></a></span></div>
+<pre><span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> HungrySingleton {
+    </span><span style="color: #0000ff;">private</span> <span style="color: #0000ff;">static</span> <span style="color: #0000ff;">final</span> HungrySingleton singleton = <span style="color: #0000ff;">new</span><span style="color: #000000;"> HungrySingleton();
+
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">限制外部产生HungrySingleton对象</span>
+    <span style="color: #0000ff;">private</span><span style="color: #000000;"> HungrySingleton(){ }
+
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">向外提供获取示例的静态方法</span>
+    <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">static</span><span style="color: #000000;"> HungrySingleton getInstance() {
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> singleton;
+    }
+
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">other methods</span>
+}</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"></a></span></div></div>
+<p><span style="font-size: 15px;">饿汉模式是类加载时候就创建对象，利用了jvm特性保证了线程的安全性。</span></p>
+<ul>
+<li><span style="font-size: 15px;">getInstance()方法是static的保证了通过类名可直接获取实例</span></li>
+<li><span style="font-size: 15px;">私有构造方法保证了只有自己才可以创建实例</span></li>
+</ul>
+<div style="text-align: right;"><a name="_label1"></a></div><h2>懒汉模式</h2>
+<a name="_label1_0"></a><h3 id="双重检查加锁方式">双重检查加锁 方式</h3>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"></a></span></div>
+<pre><span style="color: #008080;"> 1</span> <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> LazySingleton {
+</span><span style="color: #008080;"> 2</span>     <span style="color: #0000ff;">private</span> <span style="color: #0000ff;">static</span> <span style="color: #0000ff;">volatile</span> LazySingleton singleton = <span style="color: #0000ff;">null</span><span style="color: #000000;">;
+</span><span style="color: #008080;"> 3</span>
+<span style="color: #008080;"> 4</span>     <span style="color: #0000ff;">private</span><span style="color: #000000;"> LazySingleton() { }
+</span><span style="color: #008080;"> 5</span>
+		</div>

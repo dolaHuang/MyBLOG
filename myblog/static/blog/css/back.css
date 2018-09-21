@@ -1,0 +1,77 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+ul{
+    list-style: none;
+}
+li{
+    text-align: center;
+}
+a{
+    text-decoration: none;
+}
+
+
+
+/*{#尾部#}*/
+div.footer p{
+    margin: 0 auto;
+    text-align: center;
+    font-size: 14px;
+    color: #000000;
+}
+/*导航条*/
+.navbar-right{
+    margin-right: 20px;
+}
+/*主界面标题*/
+.top-title{
+
+    position: relative;
+    margin-bottom: 5px;
+}
+.back-title{
+    font-size: 70px;
+    font-weight: 700;
+}
+.user-func li{
+    float: right;
+    margin-right: 5px;
+}
+.back-username{
+    position: absolute;
+    right: 20px;
+    bottom: 5px;
+    font-size: 30px;
+    font-weight: 700;
+}
+.container-fluid{
+    margin-bottom: 50px;
+}
+/*后台添加文章*/
+
+.form-group p{
+    position: relative;
+}
+span.add{
+    position: absolute;
+    display: block;
+    font-size: 40px;
+    font-weight: 700;
+    top: -11px;
+    right: -29px;
+    color: #4cae4c;
+}
+span.add:hover{
+    cursor: pointer;
+}
+.add_form{
+    margin-top: 79px;
+}
+.add_form .form-group{
+    margin-top: 20px;
+}
+.add_tag_p{
+    margin-top: 40px;
+}

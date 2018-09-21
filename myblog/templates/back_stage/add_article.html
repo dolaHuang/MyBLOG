@@ -1,0 +1,89 @@
+{% extends 'back_stage/back_base.html' %}
+
+{% block main-content %}
+    <h3>添加文章</h3>
+    <hr style="height: 1px;background-color: #b4b4b4;">
+    <form action="" method="post" novalidate>
+    {% csrf_token %}
+        <div class="form-group">
+            <label for="article-title">标题</label><span class="error_title" style="margin-left: 10px;color: red"></span>
+            <input id="article-title" type="text" class="form-control" name="title">
+        </div>
+        <div class="form-group">
+            <label for="article-content">内容(kinderitor编辑器)</label><span class="error_content" style="margin-left: 10px;color: red"></span>
+            <div>
+            <textarea id="article-content" name="content">
+            </textarea>
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-md-3 ">
+                    <div class="form-group">
+                        <label for="web_site_category">网站分类</label>
+                        <select name="web_site_category" id="web_site_category" class="form-control">
+                            <option value="">--请选择</option>
+                            {% for web_site_category in web_site_category_list %}
+                                <option value="{{ web_site_category.title }}">{{ web_site_category.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">文章分类</label>
+                        <p>
+                            <select name="category" id="category" class="form-control">
+                                <option value="">--请选择</option>
+                                {% for category in category_list %}
+                                    <option value="{{ category.title }}">{{ category.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label for='tag'>文章标签</label>
+                        <select name="tag" id="tag" class="selectpicker form-control" multiple title="--请选择" >
+                            {% for tag in tag_list %}
+                                <option value="{{ tag.title }}">{{ tag.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2 add_form">
+                    <div class="form-group">
+                        <p>
+                            <input type="text" class="form-control add_category" placeholder="添加新分类">
+                            <span class="add" add="category">+</span>
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <p class="add_tag_p">
+                            <input type="text" class="form-control add_tag" placeholder="添加新标签">
+                            <span class="add" add="tag">+</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <input type="button" class="btn btn-info publish_article" value="发布">
+        <span class="add_error" style="color: red"></span>
+    </form>
+<script charset="utf-8" src="/static/kindeditor/kindeditor-all-min.js"></script>
+<script>
+        KindEditor.ready(function(K) {
+                window.editor = K.create('#article-content',
+                    {
+                        width:'1300',
+                        height:'500',
+                        resizeType:0,
+                        uploadJson:'/upload/',
+                        extraFileUploadParams:{
+                            csrfmiddlewaretoken:$("[name='csrfmiddlewaretoken']").val()
+                        },
+                        filePostName:'up_load_img'
+                    });
+
+        });
+</script>
+{% endblock %}
+
+{% block title %}
+<title>添加文章</title>
+{% endblock %}

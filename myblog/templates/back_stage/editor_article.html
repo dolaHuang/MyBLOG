@@ -1,0 +1,83 @@
+{% extends 'back_stage/back_base.html' %}
+
+{% block title %}
+<title>编辑文章</title>
+{% endblock %}
+
+{% block main-content %}
+    <h3>编辑文章</h3>
+    <hr style="height: 1px;background-color: #b4b4b4;">
+    <form action="">
+    {% csrf_token %}
+        <div>
+            <label for="article-title">标题</label>
+            <input id="article-title" type="text" class="form-control" name="title">
+        </div>
+        <div class="form-group">
+            <label for="article-content">内容(kinderitor编辑器)</label>
+            <div>
+            <textarea id="article-content" name="content">
+            </textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input id="submit-editor" type="button" class="btn btn-info" value="提交">
+        </div>
+    </form>
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
+<script charset="utf-8" src="/static/kindeditor/kindeditor-all-min.js"></script>
+<script>
+        KindEditor.ready(function(K) {
+                window.editor = K.create('#article-content',
+                    {
+                        width:'1090',
+                        height:'500',
+                        resizeType:0,
+                        uploadJson:'/upload/',
+                        extraFileUploadParams:{
+                            csrfmiddlewaretoken:$("[name='csrfmiddlewaretoken']").val()
+                        },
+                        filePostName:'up_load_img'
+                    });
+        });
+
+        $.ajax({
+            url:'',
+            type:'post',
+            data:{
+                csrfmiddlewaretoken:$("[name='csrfmiddlewaretoken']").val()
+            },
+            success:function (response) {
+                console.log(response);
+                $('#article-title').val(response.article[0].title);
+                html = editor.html();
+                editor.sync();
+                editor.html(response.article[0].content);
+            }
+        });
+        {#提交修改按钮#}
+        $('#submit-editor').click(function () {
+            $.ajax({
+                url: '',
+                type: 'post',
+                data: {
+                    'editor': true,
+                    'title': $('#article-title').val(),
+                    'content': editor.html(),
+                    csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val()
+                },
+                success: function (response) {
+                    if (response.editor_state) {
+                        window.location.href = '/back_stage/';
+
+                    }
+                }
+            });
+        });
+
+
+
+</script>
+
+{% endblock %}

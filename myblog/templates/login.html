@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>登陆</title>
+{% endblock %}
+
+{% block topbar %}
+
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="modal-title">
+                                            <h1 class="text-center">登录</h1>
+                                            </div>
+                <div class="modal-body">
+                    <form class="form-group">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="login-username-input">用户名:</label>
+                            <span id="login-username" style="color: red;margin-left: 20px"></span>
+                            <input class="form-control" id="login-username-input" type="text" placeholder="用户名不能小于4个字符" name="user">
+                        </div>
+                        <div class="form-group">
+                            <label for="login-pwd-input">密码:</label>
+                            <span id="login-password" style="color: red;margin-left: 20px"></span>
+                            <input class="form-control" id="login-pwd-input" type="password" placeholder="密码不能小于6个字符" name="pwd">
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="login-valid-input">验证码:</label>
+                                    <span id="login-valid" style="color: red;margin-left: 20px"></span>
+                                    <input class="form-control" id="login-valid-input" type="text" placeholder='验证码'>
+                                </div>
+                                <div class="col-md-6">
+                                    <img src="/get_img/" alt="" width="250" height="60" id="valid_code_img">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-right">
+                            <button id="login-btn" class="btn btn-primary model-login-btn" type="button">登录</button>
+                        </div>
+                        <a href="/register/" id="to-reg">还没有账号？点我注册</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

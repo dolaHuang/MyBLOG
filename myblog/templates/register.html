@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>注册</title>
+{% endblock %}
+
+{% block topbar %}
+
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                    <div class="modal-title">
+                        <h1 class="text-center">注册</h1>
+                    </div>
+                    <form class="modal-body" id="form">
+                    {% csrf_token %}
+                        {% for foo in form %}
+                            <div class="form-group">
+                                <label for="{{ foo.auto_id }}">{{ foo.label }}</label>
+                                {{ foo }}  <span class="pull-right reg-error" style="color: red">{{ foo.errors.0 }}</span>
+                            </div>
+                        {% endfor %}
+                        <div class="form-group">
+                            <label for="avator">头像
+                                <img id="avator_img" src="/media/avatars/default.jpg" width="60" height="60" style="margin-left: 20px" alt="">
+                            </label>
+                            <input id="avator" type="file" style="display: none">
+                        </div>
+                        <form class="form-group">
+                            <div class="text-right">
+                                <button class="btn btn-primary model-reg-btn" id="reg-button" type="button">提交</button>
+                                <button class="btn btn-danger" id="call-off-reg" data-dismiss="modal">取消</button>
+                            </div>
+                            <a href="/login/">已有账号？点我登录</a>
+                        </form>
+                    </form>
+                </div>
+            </div>
+        </div>
+{% endblock %}

@@ -1,0 +1,57 @@
+/*{#尾部#}*/
+div.footer{
+    margin: 0 auto;
+    text-align: center;
+    font-size: 14px;
+    color: #000000;
+}
+
+/*注册头像*/
+#avator{
+    display: none;
+}
+
+/*首页导航条*/
+span#user-icon{
+    font-size: 18px;
+    margin-right: 10px;
+    vertical-align: -3px;
+}
+
+
+/*首页文章列表*/
+.pub-info{
+    margin-top: 10px;
+}
+.pub-info span.glyphicon{
+    vertical-align: -1px;
+}
+
+/*注册成功提示*/
+div.success_reg_info{
+    position: absolute;
+    text-align: center;
+    width: 200px;
+    height: 30px;
+    line-height: 30px;
+    top: 60px;
+    left: 50%;
+    margin-left: -100px;
+    background-color: #6FA833;
+    font-size: 20px;
+}
+/*首页文章列表渲染样式*/
+.article-list{
+    padding: 20px;
+    border: 1px #4767b2 solid;
+    border-radius: 5px;
+    background-color: #b4b4b4;
+}
+.article-title{
+    border-left: 4px #336699 solid;
+    padding-left: 10px;
+}
+.article-title:hover{
+    padding-left: 20px;
+}
+

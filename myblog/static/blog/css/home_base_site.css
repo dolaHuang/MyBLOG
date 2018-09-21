@@ -1,0 +1,333 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+/*{#尾部#}*/
+div.footer{
+    margin: 0 auto;
+    text-align: center;
+    font-size: 14px;
+    color: #000000;
+}
+/*通天栏*/
+#blogTitle {
+    background: url(/static/blog/pic/title-yellow.png) no-repeat center 21px;
+    height: 314px;
+    clear: both;
+    width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+#blogTitle h1 {
+    font-size: 30px;
+    width: 310px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    position: relative;
+    top: 80px;
+    left: 17px;
+    font-weight: normal;
+
+}
+#blogTitle h2 {
+    color: #336699;
+    width: 900px;
+    position: relative;
+    height: 75px;
+    line-height: 180%;
+    font-weight: 700;
+    top: 107px;
+    left: 5px;
+    font-size: 18px;
+}
+
+/*头部*/
+#Header1_HeaderTitle{
+    color: white;
+    font-size: 40px;
+}
+.navbar{
+    height: 60px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 60px;
+    background-color: #333333;
+    color: white;
+    position: relative;
+}
+.navbar-nav{
+    position: absolute;
+    top: 7px;
+}
+.header span.title{
+    float: left;
+    margin-left: 15px;
+    margin-top: -5px;
+}
+.header .manage{
+    float: right;
+    /*color: white;*/
+    font-size: 16px;
+    text-decoration: none;
+    margin-top: 10px;
+    margin-right: 20px;
+}
+/**/
+.container-fluid{
+    margin-top: 50px;
+}
+/*首页文章列表渲染样式*/
+.article-list{
+    padding: 20px;
+    border: 1px #4767b2 solid;
+    border-radius: 5px;
+    background-color: #b4b4b4;
+}
+.article-title{
+    border-left: 4px #336699 solid;
+    padding-left: 10px;
+}
+.article-title:hover{
+    padding-left: 20px;
+}
+/*点赞样式*/
+#div_digg {
+    position: fixed;
+    bottom: 5px;
+    right: 150px;
+    border: 2px solid #6FA833;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px 5px 5px 5px !important;
+    box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+}
+#div_digg {
+    float: right;
+    margin-bottom: 10px;
+    margin-right: 30px;
+    font-size: 12px;
+    text-align: center;
+    margin-top: 10px;
+}
+.diggit {
+    float: left;
+    width: 46px;
+    height: 52px;
+    background: url('/static/blog/pic/upup.gif') no-repeat;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 2px;
+    padding-top: 5px;
+}
+.buryit {
+
+    float: right;
+    margin-left: 20px;
+    width: 46px;
+    height: 52px;
+    background: url('/static/blog/pic/downdown.gif') no-repeat;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 2px;
+    padding-top: 5px;
+
+}
+.clear {
+
+     clear: both;
+ }
+
+.diggword {
+    margin-top: 5px;
+    margin-left: 0;
+    font-size: 12px;
+    color: red;
+}
+/*回到顶部*/
+#back-to-top {
+    background-color: #86b3de;
+    bottom: 20px;
+    box-shadow: 0 0 6px #4767b2;
+    color: #444444;
+    padding: 10px 10px;
+    position: fixed;
+    right: 100px;
+    cursor: pointer;
+}
+
+/*评论区*/
+#comment_form_container {
+    border: 1px solid #dedede;
+    padding: 20px;
+    background-color: #fff;
+}
+#commentform_title {
+    background-image: url(/static/blog/pic/icon_addcomment.gif);
+    background-repeat: no-repeat;
+    padding: 0 0 0 25px;
+    margin-bottom: 10px;
+}
+div.comment_area p {
+    margin-top: 10px;
+    line-height: 20px;
+}
+#tbCommentAuthor {
+    background-position: 3px -3px;
+}
+#tbCommentAuthor{
+    background-image: url(/static/blog/pic/icon_form.gif);
+    background-repeat: no-repeat;
+    border: 1px solid #ccc;
+    padding: 4px 4px 4px 30px;
+    width: 300px;
+    font-size: 13px;
+}
+.commentbox_title {
+    width: 450px;
+}
+.commentbox_title_left {
+    float: left;
+}
+.commentbox_title_right {
+    float: right;
+    height: 22px;
+}
+.comment_icon {
+    vertical-align: middle;
+}
+img {
+    border: none;
+}
+.clear {
+    clear: both;
+}
+div.commentform textarea.comment_textarea {
+    line-height: 1.6;
+}
+#tbCommentBody{
+    width: 450px;
+    height: 300px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    font-family: 'PingFang SC','Helvetica Neue','Helvetica','Arial',sans-serif;
+}
+.comment_btn {
+    height: 26px;
+    width: 68px;
+    margin: 0;
+    padding: 0;
+    line-height: 22px;
+}
+#commentbox_opt a {
+    padding-left: 10px;
+}
+a:link {
+    color: #000;
+    text-decoration: none;
+}
+/*树形评论*/
+.comment_tree{
+    margin-top: 20px;
+}
+/*评论消息区*/
+.comment_tree ul li{
+    position: relative;
+    overflow: hidden;
+    padding: 8px 0 8px 25px;
+    text-align: left;
+}
+/*根评论添加底部虚线类*/
+.comment_top{
+    background: url(/static/blog/pic/cent_secant_4_1.gif) repeat-x 0 bottom !important;
+}
+/*子评论添加侧面虚线*/
+.comment_child{
+    background: url(/static/blog/pic/pinglun_line.gif?v=2.7) 0 0 no-repeat;
+    background-position: -7px -15px ;
+}
+
+.comment-msg a.user-pic img{
+    border: 1px solid #cccccc;
+    width: 20px;
+    height: 20px;
+    padding: 1px;
+    position: absolute;
+    top: 9px;
+    left: 15px;
+
+}
+.comment-msg span.name-and-msg{
+    padding: 3px 0 3px 2px ;
+    margin-top: -2px;
+    line-height: 19px;
+    display: block;
+    margin-left: 30px;
+}
+.name-and-msg a.name{
+    color: #336699;
+    margin-right: 15px;
+}
+.name-and-msg span.into-time{
+    color: #b4b4b4;
+    margin-left: 10px;
+}
+.publish-by-phone a{
+    color: #99aecb;
+}
+.name-and-msg span.interactive-frame{
+    height: 21px;
+    padding: 0 5px;
+    line-height: 20px;
+    border: 1px solid #e7d8bd;
+    text-align: center;
+    background-color: #fbf6ee;
+    position: absolute;
+    top: 7px;
+    right: 1px;
+    display: none;
+}
+.interactive-frame .underline-comment-msg{
+    color: #99aecb;
+}
+.interactive-frame a.underline-comment-msg{
+    margin-right: 8px;
+}
+.name-and-msg:hover{
+    background-color: #f6ecdc;
+}
+.underline-comment-msg:hover{
+    text-decoration: underline;
+    color: #336699;
+    cursor: pointer;
+}
+.comment-list li.item:hover .interactive-frame{
+    display: block;
+}
+/*评论辅助线条*/
+.comment_top{
+    position: relative;
+}
+div.line{
+    background-color: transparent;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 20px;
+    position: absolute;
+    /*border-left:1px #d9aecd dotted;*/
+    border-bottom: 1px #97aecd dotted;
+
+}
+/*评论树背景色*/
+ul.comment_tree_list{
+    background-color: #f6f6f6;
+    padding: 20px;
+    border-radius: 5px;
+}
+.pub-info{
+    color: #336699;
+}
+.article_detile_pub_info{
+    color: #b4b4b4;
+}

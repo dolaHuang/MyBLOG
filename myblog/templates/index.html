@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="/static/pic/favicon.png">
+<title>博客园</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/blog/css/blog_base.css">
+</head>
+<body>
+{#通天导航栏#}
+<nav class="navbar navbar-default navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">博客园</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+      <ul class="nav navbar-nav navbar-right">
+
+          {% if request.user.is_authenticated %}
+
+              <li><a href="/back_stage/"><span id="user-icon" class="glyphicon glyphicon-user"></span>{{ request.user.username }}</a></li>
+              <li><a href="/{{ request.user.username }}/">我的博客</a></li>
+              <li><a href="/logout/">退出</a></li>
+          {% else %}
+              <li><a href="/login/">登陆</a></li>
+              <li><a href="/register/">注册</a></li>
+          {% endif %}
+
+
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+{#主体#}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">文章分类</h3>
+                </div>
+                <div class="panel-body">
+                    {% for category in web_site_category_list %}
+                        <p>
+                            <a href="/index/{{ category.pk }}/">{{ category.title }}</a>
+                        </p>
+                    {% endfor %}
+
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">推荐博客排行</h3>
+                </div>
+                <div class="panel-body">
+                    {% for article_hot in article_hot_list %}
+                        <p>
+                            {{ forloop.counter }}.
+                            <a href="/{{ article_hot.user__username }}/">{{ article_hot.user__blog__title }}</a>
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="article-list">
+                {% for article in current_page %}
+                    <div class="article-item">
+                        <h3 class="article-title"><a href="/{{ article.user.username }}/articles/{{ article.nid }}/">{{ article.title }}</a></h3>
+                        <div class="article-desc">
+                            <span class="media-left">
+                                <a href=""><img width="56" height="56" src="media/{{ article.user.avatar }}" alt=""></a>
+                            </span>
+                            <span class="media-right">
+                                {{ article.desc }}
+                            </span>
+                        </div>
+                        <div class="pub-info small">
+                            <span><a href="/{{ article.user.username }}/">{{ article.user.username }}</a></span> &nbsp;&nbsp;
+                            <span>发布于&nbsp;{{ article.create_time|date:'Y-m-d H:i' }}</span>&nbsp;&nbsp;
+                            <span class="glyphicon glyphicon-comment"></span><span>评论({{ article.comment_count }})</span>&nbsp;&nbsp;
+                            <span class="glyphicon glyphicon-thumbs-up"></span><span>点赞({{ article.up_count }})</span>
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <img width="275px" height="230px" src="/static/pic/timg.gif" alt="">
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <img width="275px" height="230px" src="/static/pic/timg.gif" alt="">
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <img width="275px" height="230px" src="/static/pic/timg.gif" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-lg-offset-3">
+                    <nav aria-label="Page navigation">
+        <ul class="pagination">
+{#              上一页#}
+        {% if current_page.has_previous %}
+            <li>
+                <a class="ends" href="?page={{ current_page.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">上一页</span>
+                </a>
+            </li>
+        {% else %}
+{#            如果没有上一页了，就把标签禁止，且没有连接#}
+            <li class="disabled">
+                <a class="ends" href="" aria-label="Previous">
+                    <span aria-hidden="true">上一页</span>
+                </a>
+            </li>
+        {% endif %}
+{#              中间的页码#}
+            {% for page in page_range %}
+{#                如果循环的页码等于当前的页码，就添加active#}
+                {% if current_page_num == page%}
+                    <li class="active"><a href="?page={{ page }}">{{ page }}</a></li>
+                {% else %}
+                    <li><a href="?page={{ page }}">{{ page }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+{#              下一页#}
+        {% if current_page.has_next %}
+            <li>
+                <a class="ends" href="?page={{ current_page.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">下一页</span>
+                </a>
+            </li>
+        {% else %}
+{#            如果没有下一页了，就把标签禁止，且没有连接#}
+            <li class="disabled">
+                <a class="ends" href="" aria-label="Next">
+                    <span aria-hidden="true">下一页</span>
+                </a>
+            </li>
+        {% endif %}
+
+  </ul>
+</nav>
+            </div>
+        </div>
+    </div>
+
+{#尾部#}
+<div class="footer">Copyright © 2018 todolist by 游小刀</div>
+
+</body>
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/js/session.js"></script>
+<script src="/static/blog/js/blog.js"></script>
+</html>
