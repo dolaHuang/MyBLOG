@@ -24,7 +24,7 @@ SECRET_KEY = '*z$iu%wwmjl2uws*xsaj!$@ah4_-px@(&tcge@d2i24viy9bhc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -74,14 +74,19 @@ WSGI_APPLICATION = 'myblog.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'mysql': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blog',  # 要连接的数据库，连接前需要创建好
         'USER': '',  # 连接数据库的用户名
         'PASSWORD': '',  # 连接数据库的密码
         'HOST': '127.0.0.1',  # 连接主机，默认本级
         'PORT': 3306,  # 端口 默认3306
+    },
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+
 }
 
 # Password validation
